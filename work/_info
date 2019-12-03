@@ -9,21 +9,21 @@ z2
 cModel Technology
 dD:/intelFPGA_lite/16.1
 vPAGE_TABLE_32B
-Z0 !s110 1575343968
+Z0 !s110 1575360708
 !i10b 1
-!s100 mR]Ga@Qz[YVHgV@^1MEdA3
-I^K8DQ1JH@Dk`GVe]f;9gU2
+!s100 DnN0GK]kbif?h5T9H5^nf2
+I`Ef9e;n]Lzc@gAKaOiFk43
 Z1 VDg1SIo80bB@j0V0VzS_@n1
 Z2 dD:/myFiles/school/ece274/project/SpecTLB_ModelSim
-Z3 w1575343959
+Z3 w1575360706
 Z4 8D:/myFiles/school/ece274/project/SpecTLB_ModelSim/speculative_tlb.v
 Z5 FD:/myFiles/school/ece274/project/SpecTLB_ModelSim/speculative_tlb.v
-L0 162
+L0 244
 Z6 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z7 !s108 1575343968.000000
+Z7 !s108 1575360708.000000
 Z8 !s107 D:/myFiles/school/ece274/project/SpecTLB_ModelSim/speculative_tlb.v|
 Z9 !s90 -reportprogress|300|-work|work|-stats=none|D:/myFiles/school/ece274/project/SpecTLB_ModelSim/speculative_tlb.v|
 !i113 1
@@ -33,14 +33,14 @@ n@p@a@g@e_@t@a@b@l@e_32@b
 vPAGE_TABLE_8B
 R0
 !i10b 1
-!s100 WC6@:NaUX=6N;Pgg7<AOj3
-IbK_]<M`j^@SXO1FAF_dd[0
+!s100 ndaY]79A_VX9917GK7oSk0
+I]f44MXRAoTbKf_?IPzRA=2
 R1
 R2
 R3
 R4
 R5
-L0 82
+L0 171
 R6
 r1
 !s85 0
@@ -99,14 +99,14 @@ n@p@t_8@b_@t@b
 vSPECLATIVE_TLB
 R0
 !i10b 1
-!s100 m>16B`K^J[XC;:ClPEm=]1
-Io0]X2fMDiX7I2AEDg28Lh0
+!s100 zNPe@jEIAnchoBT6bSL^o2
+I8oKEKIjfNaJcXFW?:[FDB2
 R1
 R2
 R3
 R4
 R5
-L0 8
+L0 9
 R6
 r1
 !s85 0

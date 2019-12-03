@@ -9,7 +9,8 @@
 module SPECLATIVE_TLB
 	#(parameter TLB_ENTRIES = 8)
 	(
-	// PORTS TO EXTERNAL MODULES, TESTBENCH
+	// ---------------------------------------------------------------------------
+	// PORTS TO EXTERNAL MODULES, TESTBENCH---------------------------------------
 	input SPEC_TLB_RQST,						// REQUEST A SPECULATIVE TRANSLATION
 	input TRANS_RQST,								// REQUEST A TRANSLATION
 	input[7:0] VIRT_ADDR_LOOKUP,    // VIRTUAL ADDRESS INPUT TO TRANSLATE
@@ -20,23 +21,24 @@ module SPECLATIVE_TLB
 	output reg[7:0] PHY_ADDR_TRANS, // OUTPUT PHYSICAL ADDRESS TRANSLATION
 	output reg DONE_TRANS,          // SET TO 1 WHEN TRANSLATION IS FINISHED
 	
-	input clk
+	input clk,
+
+	// ON TLB MISSES, THESE PORTS USED TO GET ADDRESS TRANSLATIONS
+	// IN PAGE TABLES-------------------------------------------------------------
+	// FOR CONVENTIONAL TLB USE 8-BYTE PAGE TABLE
+	output reg PAGE_8B_RQST,
+	output reg[4:0] PAGE_8B_LOOKUP,
+	input[9:0] PAGE_8B_RECV,
+	input PAGE_8B_COMPLETE,
+
+	// FOR SPECULATIVE TLB USE 32-BYTE PAGE TABLE	
+	output reg PAGE_32B_RQST,
+	output reg[2:0] PAGE_32B_LOOKUP,
+	input[5:0] PAGE_32B_RECV,
+	input PAGE_32B_COMPLETE
+	// ---------------------------------------------------------------------------
+
 );
-
-// ON TLB MISSES, THESE PORTS USED TO GET ADDRESS TRANSLATIONS
-// IN PAGE TABLES---------------------------------------------------------------
-// FOR CONVENTIONAL TLB USE 8-BYTE PAGE TABLE
-reg PAGE_8B_RQST;
-reg[4:0] PAGE_8B_LOOKUP;
-wire[9:0] PAGE_8B_RECV;
-wire PAGE_8B_COMPLETE;
-
-// FOR SPECULATIVE TLB USE 32-BYTE PAGE TABLE	
-reg PAGE_32B_RQST;
-reg[2:0] PAGE_32B_LOOKUP;
-wire[5:0] PAGE_32B_RECV;
-wire PAGE_32B_COMPLETE;
-// -----------------------------------------------------------------------------
 
 reg [10:0] TLB_TABLE[0:7]; // TLB TRANSLATION TABLE WITH 8 ENTRIES
 reg [2:0] indx, insertIndx, numEntries;
@@ -59,10 +61,10 @@ initial begin
 	nextState = 3'b0;
 end
 	
-PAGE_TABLE_8B  PT8_Lookup(.LOOKUP_RQST(PAGE_8B_RQST),.LOOKUP_ADDR(PAGE_8B_LOOKUP),
-	.LOOKUP_COMPLETE(PAGE_8B_COMPLETE),.LOOKUP_RETURN(PAGE_8B_RECV));
-PAGE_TABLE_32B  PT32_Lookup(.LOOKUP_RQST(PAGE_32B_RQST),.LOOKUP_ADDR(PAGE_32B_LOOKUP),
-	.LOOKUP_COMPLETE(PAGE_32B_COMPLETE),.LOOKUP_RETURN(PAGE_32B_RECV));
+//PAGE_TABLE_8B  PT8_Lookup(.LOOKUP_RQST(PAGE_8B_RQST),.LOOKUP_ADDR(PAGE_8B_LOOKUP),
+//	.LOOKUP_COMPLETE(PAGE_8B_COMPLETE),.LOOKUP_RETURN(PAGE_8B_RECV));
+//PAGE_TABLE_32B  PT32_Lookup(.LOOKUP_RQST(PAGE_32B_RQST),.LOOKUP_ADDR(PAGE_32B_LOOKUP),
+//	.LOOKUP_COMPLETE(PAGE_32B_COMPLETE),.LOOKUP_RETURN(PAGE_32B_RECV));
 
 // KEEP TRACK OF WHERE NEXT TO PLACE A NEW TLB ENTRY
 always @ (posedge clk) begin

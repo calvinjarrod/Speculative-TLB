@@ -1,0 +1,120 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dD:/intelFPGA_lite/16.1
+vPAGE_TABLE_32B
+Z0 !s110 1575343968
+!i10b 1
+!s100 mR]Ga@Qz[YVHgV@^1MEdA3
+I^K8DQ1JH@Dk`GVe]f;9gU2
+Z1 VDg1SIo80bB@j0V0VzS_@n1
+Z2 dD:/myFiles/school/ece274/project/SpecTLB_ModelSim
+Z3 w1575343959
+Z4 8D:/myFiles/school/ece274/project/SpecTLB_ModelSim/speculative_tlb.v
+Z5 FD:/myFiles/school/ece274/project/SpecTLB_ModelSim/speculative_tlb.v
+L0 162
+Z6 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z7 !s108 1575343968.000000
+Z8 !s107 D:/myFiles/school/ece274/project/SpecTLB_ModelSim/speculative_tlb.v|
+Z9 !s90 -reportprogress|300|-work|work|-stats=none|D:/myFiles/school/ece274/project/SpecTLB_ModelSim/speculative_tlb.v|
+!i113 1
+Z10 o-work work
+Z11 tCvgOpt 0
+n@p@a@g@e_@t@a@b@l@e_32@b
+vPAGE_TABLE_8B
+R0
+!i10b 1
+!s100 WC6@:NaUX=6N;Pgg7<AOj3
+IbK_]<M`j^@SXO1FAF_dd[0
+R1
+R2
+R3
+R4
+R5
+L0 82
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+R11
+n@p@a@g@e_@t@a@b@l@e_8@b
+vPT_32B_TB
+R0
+!i10b 1
+!s100 jJmOjYZG`;lQkZ;1gb^;<2
+IPnC:NcD`MdM1z_06ABK>V2
+R1
+R2
+w1575343645
+8D:/myFiles/school/ece274/project/SpecTLB_ModelSim/PT_32B_tb.v
+FD:/myFiles/school/ece274/project/SpecTLB_ModelSim/PT_32B_tb.v
+L0 2
+R6
+r1
+!s85 0
+31
+R7
+!s107 D:/myFiles/school/ece274/project/SpecTLB_ModelSim/PT_32B_tb.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/myFiles/school/ece274/project/SpecTLB_ModelSim/PT_32B_tb.v|
+!i113 1
+R10
+R11
+n@p@t_32@b_@t@b
+vPT_8B_TB
+R0
+!i10b 1
+!s100 2_G<dVRm36:3K`:V<nX8@1
+ICVYc3Om^<N5h^1V`ejRMS3
+R1
+R2
+w1575343639
+8D:/myFiles/school/ece274/project/SpecTLB_ModelSim/PT_8B_tb.v
+FD:/myFiles/school/ece274/project/SpecTLB_ModelSim/PT_8B_tb.v
+L0 2
+R6
+r1
+!s85 0
+31
+R7
+!s107 D:/myFiles/school/ece274/project/SpecTLB_ModelSim/PT_8B_tb.v|
+!s90 -reportprogress|300|-work|work|-stats=none|D:/myFiles/school/ece274/project/SpecTLB_ModelSim/PT_8B_tb.v|
+!i113 1
+R10
+R11
+n@p@t_8@b_@t@b
+vSPECLATIVE_TLB
+R0
+!i10b 1
+!s100 m>16B`K^J[XC;:ClPEm=]1
+Io0]X2fMDiX7I2AEDg28Lh0
+R1
+R2
+R3
+R4
+R5
+L0 8
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+R11
+n@s@p@e@c@l@a@t@i@v@e_@t@l@b

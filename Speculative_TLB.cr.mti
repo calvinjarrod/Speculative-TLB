@@ -1,0 +1,24 @@
+D:/myfiles/school/ece274/project/ModelSim/Speculative-TLB/speculative_tlb.v {1 {vlog -work work -stats=none D:/myfiles/school/ece274/project/ModelSim/Speculative-TLB/speculative_tlb.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module SPECLATIVE_TLB
+-- Compiling module PAGE_TABLE_8B
+-- Compiling module PAGE_TABLE_32B
+
+Top level modules:
+	SPECLATIVE_TLB
+
+} {} {}} D:/myfiles/school/ece274/project/ModelSim/Speculative-TLB/PT_8B_tb.v {1 {vlog -work work -stats=none D:/myfiles/school/ece274/project/ModelSim/Speculative-TLB/PT_8B_tb.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module PT_8B_TB
+
+Top level modules:
+	PT_8B_TB
+
+} {} {}} D:/myfiles/school/ece274/project/ModelSim/Speculative-TLB/PT_32B_tb.v {1 {vlog -work work -stats=none D:/myfiles/school/ece274/project/ModelSim/Speculative-TLB/PT_32B_tb.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module PT_32B_TB
+
+Top level modules:
+	PT_32B_TB
+
+} {} {}}

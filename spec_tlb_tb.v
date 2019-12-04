@@ -1,37 +1,26 @@
-`default_nettype wire
-module spec_tlb_tb();
+module spec_tlb_tb#(parameter NUM_ADDRS = 1)();
 
 // TB TO TLB PORTS
 reg TRANS_RQST;
 reg SPEC_TLB_RQST;
-reg[7:0] VIRT_ADDR_LOOKUP;
+reg[8:0] VIRT_ADDR_LOOKUP;
 wire SPEC_HIT;
 wire TLB_HIT;
-wire[7:0] PHY_ADDR_TRANS;
+wire[8:0] PHY_ADDR_TRANS;
 wire DONE_TRANS;
 reg clk;
 
-// TB TO 8B PT PORTS
-reg PT_8B_INSERT_RQST;
-reg [4:0] PT_8B_INSERT_INDX;
-reg [9:0] PT_8B_INSERT_ENTRY;
-
-// TB TO 32B PT PORTS
-reg PT_32B_INSERT_RQST;
-reg [3:0] PT_32B_INSERT_INDX;
-reg [5:0] PT_32B_INSERT_ENTRY;
-
 // 8B TO TLB INTERCONNECTS
 wire LOOKUP_RQST_8B;
-wire [4:0] LOOKUP_ADDR_8B;
+wire [5:0] LOOKUP_ADDR_8B;
 wire LOOKUP_COMPLETE_8B;
-wire [9:0] LOOKUP_RETURN_8B;
+wire [11:0] LOOKUP_RETURN_8B;
 
 // 32B TO TLB INTERCONNECTS
 wire LOOKUP_RQST_32B;
-wire [2:0] LOOKUP_ADDR_32B;
+wire [3:0] LOOKUP_ADDR_32B;
 wire LOOKUP_COMPLETE_32B;
-wire [5:0] LOOKUP_RETURN_32B;
+wire [7:0] LOOKUP_RETURN_32B;
 
 SPECLATIVE_TLB SPEC_TLB(
 	.SPEC_TLB_RQST(SPEC_TLB_RQST),
@@ -57,10 +46,8 @@ PAGE_TABLE_32B PT_32B (
 	.LOOKUP_ADDR(LOOKUP_ADDR_32B),
 	.LOOKUP_COMPLETE(LOOKUP_COMPLETE_32B),
 	.LOOKUP_RETURN(LOOKUP_RETURN_32B),
-	.PT_INSERT_RQST(PT_32B_INSERT_RQST),
-	.PT_INSERT_INDX(PT_32B_INSERT_INDX),
-	.PT_INSERT_ENTRY(PT_32B_INSERT_ENTRY),
 	.clk(clk)
+
 );
 
 PAGE_TABLE_8B PT_8B (
@@ -68,11 +55,56 @@ PAGE_TABLE_8B PT_8B (
 	.LOOKUP_ADDR(LOOKUP_ADDR_8B),
 	.LOOKUP_COMPLETE(LOOKUP_COMPLETE_8B),
 	.LOOKUP_RETURN(LOOKUP_RETURN_8B),
-	.PT_INSERT_RQST(PT_8B_INSERT_RQST),
-	.PT_INSERT_INDX(PT_8B_INSERT_INDX),
-	.PT_INSERT_ENTRY(PT_8B_INSERT_ENTRY),
 	.clk(clk)
 );
 
+// STATE 0 IS REQUEST NEW ADDRESS FROM TLB
+// STATE 1 IS WAIT FOR NEW ADDRESS FROM TLB
+reg [1:0] state, nextState;
+reg [9:0] completed_addr;
+reg [9:0] ADDRS_TO_TRANSLATE[0:NUM_ADDRS];
+reg [5:0] indx;
+
+initial begin
+	$readmemh("ADDRS_TO_TRANSLATE.dat",ADDRS_TO_TRANSLATE);
+	state = 0;
+	nextState = 0;
+	SPEC_TLB_RQST <= 0;
+	TRANS_RQST <= 0;
+	VIRT_ADDR_LOOKUP <= 9'bZ;
+	clk <= 0;
+	indx <= 0;
+	repeat (100) begin
+		#1 clk <= ~clk;
+	end
+end
+
+always @ * begin
+	case (state) 
+		2'b00: nextState = 2'b01;
+		2'b01: if (indx < NUM_ADDRS) begin
+			VIRT_ADDR_LOOKUP = ADDRS_TO_TRANSLATE[indx];
+			SPEC_TLB_RQST = 1;
+			TRANS_RQST = 1;
+			nextState = 2'b10;
+		end
+		2'b10: if (DONE_TRANS) begin
+			nextState = 2'b01;
+			end else begin
+				SPEC_TLB_RQST = 0;
+				TRANS_RQST = 0;
+				nextState = 2'b10;
+			end
+	endcase
+end
+
+always @ (posedge clk) begin
+	state = nextState;
+end
+
+always @ (posedge DONE_TRANS) begin
+	if (indx < NUM_ADDRS) indx = indx + 1;
+	completed_addr = PHY_ADDR_TRANS;
+end
 
 endmodule

@@ -9,133 +9,133 @@ z2
 cModel Technology
 dD:/intelFPGA_lite/16.1
 vPAGE_TABLE_32B
-Z0 !s110 1575407200
+Z0 !s110 1575440299
 !i10b 1
-!s100 :@8Z0j5ca?I094^ccXCYU1
-InY3Df3SiRQMWN=X<0f:kU0
+!s100 Ji:Dih8TJ1MO_kiSMIG4D0
+ID[gLM[4ID^dPOLjaj45eL3
 Z1 VDg1SIo80bB@j0V0VzS_@n1
 Z2 dE:/ece274_project/ModelSim/Speculative-TLB
-Z3 w1575404459
-Z4 8E:/ece274_project/ModelSim/Speculative-TLB/speculative_tlb.v
-Z5 FE:/ece274_project/ModelSim/Speculative-TLB/speculative_tlb.v
-L0 246
-Z6 OV;L;10.5b;63
+w1575437160
+8E:/ece274_project/ModelSim/Speculative-TLB/PAGE_TABLE_32B.v
+FE:/ece274_project/ModelSim/Speculative-TLB/PAGE_TABLE_32B.v
+L0 6
+Z3 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z7 !s108 1575407200.000000
-Z8 !s107 E:/ece274_project/ModelSim/Speculative-TLB/speculative_tlb.v|
-Z9 !s90 -reportprogress|300|-work|work|-stats=none|E:/ece274_project/ModelSim/Speculative-TLB/speculative_tlb.v|
+Z4 !s108 1575440299.000000
+!s107 E:/ece274_project/ModelSim/Speculative-TLB/PAGE_TABLE_32B.v|
+!s90 -reportprogress|300|-work|work|-stats=none|E:/ece274_project/ModelSim/Speculative-TLB/PAGE_TABLE_32B.v|
 !i113 1
-Z10 o-work work
-Z11 tCvgOpt 0
+Z5 o-work work
+Z6 tCvgOpt 0
 n@p@a@g@e_@t@a@b@l@e_32@b
 vPAGE_TABLE_8B
 R0
 !i10b 1
-!s100 ?^M6KgLf1b1RXT=:cz15>1
-IXjiA<eecGmZIij4FjSYhm0
+!s100 5ih2bKKn6VdET;NKcQ[L13
+I=7`z^60oKC06^3]URBN5=2
 R1
 R2
+w1575437166
+8E:/ece274_project/ModelSim/Speculative-TLB/PAGE_TABLE_8B.v
+FE:/ece274_project/ModelSim/Speculative-TLB/PAGE_TABLE_8B.v
+L0 6
 R3
-R4
-R5
-L0 173
-R6
 r1
 !s85 0
 31
-R7
-R8
-R9
+R4
+!s107 E:/ece274_project/ModelSim/Speculative-TLB/PAGE_TABLE_8B.v|
+!s90 -reportprogress|300|-work|work|-stats=none|E:/ece274_project/ModelSim/Speculative-TLB/PAGE_TABLE_8B.v|
 !i113 1
-R10
-R11
+R5
+R6
 n@p@a@g@e_@t@a@b@l@e_8@b
 vPT_32B_TB
 R0
 !i10b 1
-!s100 jJmOjYZG`;lQkZ;1gb^;<2
-ILeLklR2FEzmPeAPa8Xg0L0
+!s100 hH5?l>6RaNWcTn3[Y4Y:K3
+IdKM9`md2Sik^5NX>JM<5<2
 R1
 R2
-Z12 w1575402872
+w1575432475
 8E:/ece274_project/ModelSim/Speculative-TLB/PT_32B_tb.v
 FE:/ece274_project/ModelSim/Speculative-TLB/PT_32B_tb.v
 L0 2
-R6
+R3
 r1
 !s85 0
 31
-R7
+R4
 !s107 E:/ece274_project/ModelSim/Speculative-TLB/PT_32B_tb.v|
 !s90 -reportprogress|300|-work|work|-stats=none|E:/ece274_project/ModelSim/Speculative-TLB/PT_32B_tb.v|
 !i113 1
-R10
-R11
+R5
+R6
 n@p@t_32@b_@t@b
 vPT_8B_TB
 R0
 !i10b 1
-!s100 2_G<dVRm36:3K`:V<nX8@1
-I19nRk6lSQ<Yd`i1`GI:I32
+!s100 30D;[c?_2Q1?Wb@hgJe>`2
+I^GKi9YbZK8WMI;5`gAGcI2
 R1
 R2
-R12
+w1575434877
 8E:/ece274_project/ModelSim/Speculative-TLB/PT_8B_tb.v
 FE:/ece274_project/ModelSim/Speculative-TLB/PT_8B_tb.v
 L0 2
-R6
+R3
 r1
 !s85 0
 31
-R7
+R4
 !s107 E:/ece274_project/ModelSim/Speculative-TLB/PT_8B_tb.v|
 !s90 -reportprogress|300|-work|work|-stats=none|E:/ece274_project/ModelSim/Speculative-TLB/PT_8B_tb.v|
 !i113 1
-R10
-R11
+R5
+R6
 n@p@t_8@b_@t@b
 vspec_tlb_tb
 R0
 !i10b 1
-!s100 GKf_577Y86KajHiT7oK0A1
-IMUfR@j_EM1G6:7c]j>nhW2
+!s100 Si>Ui89=gmNo7Bg5h3H?b1
+IC;82ae=TgooP9>dh:O6TN2
 R1
 R2
-w1575407196
+w1575435227
 8E:/ece274_project/ModelSim/Speculative-TLB/spec_tlb_tb.v
 FE:/ece274_project/ModelSim/Speculative-TLB/spec_tlb_tb.v
-L0 2
-R6
+L0 1
+R3
 r1
 !s85 0
 31
-R7
+R4
 !s107 E:/ece274_project/ModelSim/Speculative-TLB/spec_tlb_tb.v|
 !s90 -reportprogress|300|-work|work|-stats=none|E:/ece274_project/ModelSim/Speculative-TLB/spec_tlb_tb.v|
 !i113 1
-R10
-R11
+R5
+R6
 vSPECLATIVE_TLB
 R0
 !i10b 1
-!s100 ;2I5^EHg9S:Hh^36Rl_b@0
-I?hAB:R[AJijIKY5GRFgl;1
+!s100 Gi?Ig0aZ?I?Mla0BhT@Ie0
+I;0I:OLF_H`KL?L>1;WR0Y1
 R1
 R2
-R3
-R4
-R5
+w1575440295
+8E:/ece274_project/ModelSim/Speculative-TLB/speculative_tlb.v
+FE:/ece274_project/ModelSim/Speculative-TLB/speculative_tlb.v
 L0 9
-R6
+R3
 r1
 !s85 0
 31
-R7
-R8
-R9
+R4
+!s107 E:/ece274_project/ModelSim/Speculative-TLB/speculative_tlb.v|
+!s90 -reportprogress|300|-work|work|-stats=none|E:/ece274_project/ModelSim/Speculative-TLB/speculative_tlb.v|
 !i113 1
-R10
-R11
+R5
+R6
 n@s@p@e@c@l@a@t@i@v@e_@t@l@b

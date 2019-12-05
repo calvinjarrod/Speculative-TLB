@@ -1,4 +1,5 @@
-module spec_tlb_tb#(parameter NUM_ADDRS = 1)();
+`default_nettype wire
+module spec_tlb_tb#(parameter NUM_ADDRS = 4)();
 
 // TB TO TLB PORTS
 reg TRANS_RQST;
@@ -47,7 +48,6 @@ PAGE_TABLE_32B PT_32B (
 	.LOOKUP_COMPLETE(LOOKUP_COMPLETE_32B),
 	.LOOKUP_RETURN(LOOKUP_RETURN_32B),
 	.clk(clk)
-
 );
 
 PAGE_TABLE_8B PT_8B (
@@ -61,29 +61,32 @@ PAGE_TABLE_8B PT_8B (
 // STATE 0 IS REQUEST NEW ADDRESS FROM TLB
 // STATE 1 IS WAIT FOR NEW ADDRESS FROM TLB
 reg [1:0] state, nextState;
-reg [9:0] completed_addr;
-reg [9:0] ADDRS_TO_TRANSLATE[0:NUM_ADDRS];
+reg [8:0] completed_addr;
+//reg [8:0] ADDRS_TO_TRANSLATE[0:NUM_ADDRS-1];
 reg [5:0] indx;
+reg [8:0] randomAddr;
 
 initial begin
-	$readmemh("ADDRS_TO_TRANSLATE.dat",ADDRS_TO_TRANSLATE);
+	//$readmemh("ADDRS_TO_TRANSLATE.dat",ADDRS_TO_TRANSLATE);
+	randomAddr = {1'b0,{$random}%256};
 	state = 0;
 	nextState = 0;
-	SPEC_TLB_RQST <= 0;
-	TRANS_RQST <= 0;
-	VIRT_ADDR_LOOKUP <= 9'bZ;
-	clk <= 0;
-	indx <= 0;
-	repeat (100) begin
+	SPEC_TLB_RQST = 0;
+	TRANS_RQST = 0;
+	VIRT_ADDR_LOOKUP = 9'bZ;
+	clk = 0;
+	indx = 0;
+	repeat (200) begin
 		#1 clk <= ~clk;
 	end
 end
 
 always @ * begin
+	randomAddr = {1'b0,{$random}%256};
 	case (state) 
 		2'b00: nextState = 2'b01;
 		2'b01: if (indx < NUM_ADDRS) begin
-			VIRT_ADDR_LOOKUP = ADDRS_TO_TRANSLATE[indx];
+			VIRT_ADDR_LOOKUP = randomAddr;
 			SPEC_TLB_RQST = 1;
 			TRANS_RQST = 1;
 			nextState = 2'b10;
@@ -99,12 +102,18 @@ always @ * begin
 end
 
 always @ (posedge clk) begin
+	//randomAddr = {1'b0,{$random}%256};
 	state = nextState;
+
+	//case (state)
+	//	2'b10: indx = indx + 1;
+	//endcase
 end
 
 always @ (posedge DONE_TRANS) begin
 	if (indx < NUM_ADDRS) indx = indx + 1;
 	completed_addr = PHY_ADDR_TRANS;
+	$display("%b\t%b\t",VIRT_ADDR_LOOKUP,completed_addr,TLB_HIT);
 end
 
 endmodule

@@ -1,3 +1,4 @@
+
 // -----------------------------------------------------------------------------
 // SPECULATIVE TRANSLATION LOOKASIDE BUFFER
 // TAKES INPUT VIRTUAL ADDRESSES AND TRANSLATES TO SYSTEM PHYSICAL ADDRESSES
@@ -63,17 +64,17 @@ end
 	
 // BLOCK USED TO SYNCHRONIZE STATE CHANGE WITH CLOCK
 always @ (posedge clk) begin
-	$display ("TLB state: ",state);
-	$display ("TLB Index: ",indx);
+	//$display ("TLB state: %b, next state: %b",state,nextState);
+	//$display ("TLB Index: %b",indx);
 	state = nextState;
 	if (numEntries < TLB_ENTRIES) begin
 		insertIndx = numEntries;
 	end
 	case (state)
-		3'b000: if (TRANS_RQST && ~SPEC_TLB_RQST) nextState = 3'b011;
+		3'b000: if (TRANS_RQST && ~SPEC_TLB_RQST) nextState = 3'b100;
 			else if (TRANS_RQST && SPEC_TLB_RQST) nextState = 3'b001;
 			else nextState = 3'b000;
-		3'b001: if (VIRT_ADDR_LOOKUP[8:5] != currentTLBentry[11:8]) indx = indx + 1;
+		3'b001: indx = indx + 1;
 		3'b011: if (VIRT_ADDR_LOOKUP[8:3] != currentTLBentry[11:6]) indx = indx + 1;
 	endcase
 end
@@ -104,8 +105,21 @@ always @ * begin
 		end
 		3'b010: begin
 			// its not getting to here for some reason
+			//$display ("Got to state 010!");
 			PAGE_32B_LOOKUP = VIRT_ADDR_LOOKUP[8:5];
 			PAGE_32B_RQST = 1;
+			nextState = 3'b011;
+			//if (PAGE_32B_COMPLETE) begin
+			//	PHY_ADDR_TRANS = {PAGE_32B_RECV[3:0],VIRT_ADDR_LOOKUP[4:0]};
+			//	TLB_TABLE[insertIndx] = {1'b1,PAGE_32B_RECV[7:4],2'b0,PAGE_32B_RECV[3:0],2'b0};
+			//	nextState = 3'b000;
+			//	DONE_TRANS = 1;
+			//	PAGE_32B_RQST = 0;
+			//	PAGE_32B_LOOKUP = 4'bZ;
+			//end
+		end
+		3'b011: begin
+			PAGE_32B_RQST = 0;
 			if (PAGE_32B_COMPLETE) begin
 				PHY_ADDR_TRANS = {PAGE_32B_RECV[3:0],VIRT_ADDR_LOOKUP[4:0]};
 				TLB_TABLE[insertIndx] = {1'b1,PAGE_32B_RECV[7:4],2'b0,PAGE_32B_RECV[3:0],2'b0};
@@ -113,9 +127,9 @@ always @ * begin
 				DONE_TRANS = 1;
 				PAGE_32B_RQST = 0;
 				PAGE_32B_LOOKUP = 4'bZ;
-			end //else if 
+			end
 		end
-		3'b011: begin
+		3'b100: begin
 			currentTLBentry = TLB_TABLE[indx];
 			if (VIRT_ADDR_LOOKUP[8:3] == currentTLBentry[11:6]) begin
 				PHY_ADDR_TRANS = {currentTLBentry[5:0],VIRT_ADDR_LOOKUP[2:0]};

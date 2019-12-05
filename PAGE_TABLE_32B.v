@@ -18,7 +18,7 @@ module PAGE_TABLE_32B
 reg [7:0] PT_32B[0:PT_32B_ENTRIES-1];
 reg [2:0] indx;
 reg [7:0] currentPTentry;
-reg [2:0] state, nextState;
+reg [1:0] state, nextState;
 	
 initial begin
 	$readmemh("PT_32B_ENTRIES.dat",PT_32B);
@@ -32,28 +32,36 @@ end
 // CHANGE CURRENT STATE BASED ON CLOCK
 always @ (posedge clk) begin
 	state = nextState;
+	//$display ("32B state: %b",state);
 	case (state)
-		2'b00: indx = 0;
 		2'b01: if (LOOKUP_ADDR != currentPTentry[7:4]) indx = indx + 1;
+		2'b10: indx = 0;
 	endcase
 end
 
 always @ * begin
 	case (state)
+		2'b00: begin
+			//LOOKUP_COMPLETE = 0;
+			//LOOKUP_RETURN = 8'bZ;
+			nextState = {1'b0,LOOKUP_RQST};
+		end
 		2'b01: begin
 			currentPTentry = PT_32B[indx];
-			$display ("Current indx: %b",indx);
+			//$display ("Current indx: %b",indx);
 			if (LOOKUP_ADDR == currentPTentry[7:4]) begin
 				LOOKUP_RETURN = currentPTentry;
 				LOOKUP_COMPLETE = 1;	
-				nextState = 2'b00;		
-			end else nextState = 2'b01;
+				nextState = 2'b10;		
+			end //else nextState = 2'b01;
 		end
-		2'b00: begin
-			LOOKUP_COMPLETE <= 0;
-			LOOKUP_RETURN <= 8'bZ;
-			nextState = LOOKUP_RQST;
+		// WAIT ONE CYCLE AFTER TRANSMITTING TRANSLATION
+		2'b10: begin
+			LOOKUP_COMPLETE = 1'b0;
+			LOOKUP_RETURN = 8'bZ;
+			nextState = 2'b00;
 		end
 	endcase
-end 		
+end 	
+	
 endmodule

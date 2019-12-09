@@ -2,6 +2,8 @@
 // 32 BYTE PAGE TABLE
 // USED FOR SPECULATIVE PAGE TRANSLATIONS
 // WHEN ENTRY IS NOT PRESENT IN TLB
+//
+// Author: Calvin Jarrod Smith
 // -----------------------------------------------------------------------------
 module PAGE_TABLE_32B
 	#(parameter [3:0]PT_32B_ENTRIES = 8)
@@ -11,7 +13,6 @@ module PAGE_TABLE_32B
 	input [3:0] LOOKUP_ADDR, 
 	output reg LOOKUP_COMPLETE,
 	output reg [7:0] LOOKUP_RETURN,
-	// USED BY TESTBENCH TO LOAD WITH TRANSLATIONS
 
 	input clk
 );
@@ -23,7 +24,7 @@ reg [1:0] state, nextState;
 initial begin
 	$readmemh("PT_32B_ENTRIES.dat",PT_32B);
 	LOOKUP_COMPLETE = 0;
-	LOOKUP_RETURN = 9'bZ;
+	LOOKUP_RETURN = 8'bZ;
 	indx = 0;
 	state = 0;
 	nextState = 0;
@@ -32,7 +33,6 @@ end
 // CHANGE CURRENT STATE BASED ON CLOCK
 always @ (posedge clk) begin
 	state = nextState;
-	//$display ("32B state: %b",state);
 	case (state)
 		2'b01: if (LOOKUP_ADDR != currentPTentry[7:4]) indx = indx + 1;
 		2'b10: indx = 0;
@@ -42,8 +42,6 @@ end
 always @ * begin
 	case (state)
 		2'b00: begin
-			//LOOKUP_COMPLETE = 0;
-			//LOOKUP_RETURN = 8'bZ;
 			nextState = {1'b0,LOOKUP_RQST};
 		end
 		2'b01: begin
@@ -63,5 +61,4 @@ always @ * begin
 		end
 	endcase
 end 	
-	
 endmodule

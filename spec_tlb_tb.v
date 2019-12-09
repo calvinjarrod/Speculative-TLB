@@ -1,5 +1,20 @@
 `default_nettype wire
-module spec_tlb_tb#(parameter NUM_ADDRS = 4)();
+`timescale 1ns/1ps
+// -----------------------------------------------------------------------------
+// SPEC TLB TESTBENCH
+// THIS TEST BENCH GENERATES A RANDOM VIRTUAL ADDRESS WITH THE MSB OF 0
+// THE SPEC TLB AND ASSOCIATED PAGE TABLES WILL THEN TRANSLATE THE VIRTUAL 
+// ADDRESS INTO A SYSTEM PHYSICAL ADDRESS. THE SYSTEM PHYSICAL ADDRESS IS THE
+// SAME AS THE VIRTUAL ADDRESS EXCEPT WITH THE MSB SET TO 1 TO MAKE VISUAL
+// TRANSLATION EASY.
+// 
+// TO CHANGE FROM A SPECULATIVE TLB WITH 32-BYTE PAGE ADDRESSES TO A 
+// NON-SPECULATIVE TLB WITH 8-BYTE PAGE ADDRESSES, CHANGE SPEC_BIT PARAMETER
+// TO 0.
+//
+// Author: Calvin Jarrod Smith
+// -----------------------------------------------------------------------------
+module spec_tlb_tb#(parameter [6:0] NUM_ADDRS = 64, parameter SPEC_SET = 0)();
 
 // TB TO TLB PORTS
 reg TRANS_RQST;
@@ -63,11 +78,12 @@ PAGE_TABLE_8B PT_8B (
 reg [1:0] state, nextState;
 reg [8:0] completed_addr;
 //reg [8:0] ADDRS_TO_TRANSLATE[0:NUM_ADDRS-1];
-reg [5:0] indx;
+reg [6:0] indx;
 reg [8:0] randomAddr;
+reg [5:0] TLB_HITS;
 
 initial begin
-	//$readmemh("ADDRS_TO_TRANSLATE.dat",ADDRS_TO_TRANSLATE);
+	$display ("Virtual Addr\t Physical Addr\t  TLB Hit");
 	randomAddr = {1'b0,{$random}%256};
 	state = 0;
 	nextState = 0;
@@ -76,9 +92,14 @@ initial begin
 	VIRT_ADDR_LOOKUP = 9'bZ;
 	clk = 0;
 	indx = 0;
-	repeat (200) begin
+	TLB_HITS = 0;
+	repeat (10000) begin
 		#1 clk <= ~clk;
 	end
+end
+
+always @ (posedge TLB_HIT) begin
+	TLB_HITS = TLB_HITS + 6'b000001;
 end
 
 always @ * begin
@@ -87,10 +108,10 @@ always @ * begin
 		2'b00: nextState = 2'b01;
 		2'b01: if (indx < NUM_ADDRS) begin
 			VIRT_ADDR_LOOKUP = randomAddr;
-			SPEC_TLB_RQST = 1;
+			SPEC_TLB_RQST = SPEC_SET;
 			TRANS_RQST = 1;
 			nextState = 2'b10;
-		end
+		end else nextState = 2'b11;
 		2'b10: if (DONE_TRANS) begin
 			nextState = 2'b01;
 			end else begin
@@ -98,22 +119,25 @@ always @ * begin
 				TRANS_RQST = 0;
 				nextState = 2'b10;
 			end
+		2'b11: begin
+			$display("---------------------------------------------------------------------------");
+			$display("---------------------------------------------------------------------------");
+			$display("Number of lookups: %d. Number of TLB hits: %d.",indx,TLB_HITS);
+			$display("Total time to lookup %d entries is %d ns",indx,$time);
+			$display("---------------------------------------------------------------------------");
+			$display("---------------------------------------------------------------------------");
+			$stop;
+		end
 	endcase
 end
 
 always @ (posedge clk) begin
-	//randomAddr = {1'b0,{$random}%256};
 	state = nextState;
-
-	//case (state)
-	//	2'b10: indx = indx + 1;
-	//endcase
 end
 
 always @ (posedge DONE_TRANS) begin
 	if (indx < NUM_ADDRS) indx = indx + 1;
 	completed_addr = PHY_ADDR_TRANS;
-	$display("%b\t%b\t",VIRT_ADDR_LOOKUP,completed_addr,TLB_HIT);
+	$display("%b\t\t%b\t\t%b",VIRT_ADDR_LOOKUP,completed_addr,TLB_HIT);
 end
-
 endmodule
